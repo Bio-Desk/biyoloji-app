@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "BiyoMap",
+    "slug": "biomap",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1B4332"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.biomap.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1B4332"
+      },
+      "package": "com.biomap.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#1B4332"
+        }
+      ],
+      "expo-asset",
+      "expo-font"
+    ],
+    "scheme": "biomap",
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
