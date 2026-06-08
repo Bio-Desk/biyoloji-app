@@ -3,32 +3,47 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, radius, shadows } from '../../lib/theme';
 
+// Dönem ve sınav tarihleri
+const SCHOOL_OPEN = new Date('2025-09-09');
+const SCHOOL_CLOSE = new Date('2026-06-13');
+const YKS_DATE = new Date('2026-06-14');
+
+function getDaysLeft(): number {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diff = YKS_DATE.getTime() - today.getTime();
+  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+}
+
+function formatDate(d: Date): string {
+  return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
 export default function ProfileScreen() {
+  const daysLeft = getDaysLeft();
+
   return (
     <SafeAreaView style={styles.container}>
 
       {/* Profile Header */}
       <View style={styles.header}>
         <View style={styles.avatar}>
-          <Text style={styles.avatarText}>A</Text>
+          <Ionicons name="person-circle" size={60} color="rgba(255,255,255,0.92)" />
         </View>
-        <View>
+        <View style={{ flex: 1 }}>
           <Text style={styles.name}>Aylin</Text>
-          <Text style={styles.grade}>9. Sınıf · Biyoloji Meraklısı</Text>
+          <Text style={styles.termText}>
+            {formatDate(SCHOOL_OPEN)} – {formatDate(SCHOOL_CLOSE)}
+          </Text>
+          <Text style={styles.examText}>YKS'ye {daysLeft} gün kaldı</Text>
         </View>
+        <TouchableOpacity style={styles.proHeaderBtn}>
+          <Ionicons name="star" size={11} color="#FFD700" />
+          <Text style={styles.proHeaderText}>PRO</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
-
-        {/* Pro Banner */}
-        <TouchableOpacity style={styles.proBanner}>
-          <Ionicons name="star" size={20} color="#FFD700" />
-          <View style={{ flex: 1, marginLeft: spacing.md }}>
-            <Text style={styles.proTitle}>BiyoMap Pro'ya Geç</Text>
-            <Text style={styles.proSub}>Tüm konular, sınırsız tekrar, PDF rapor</Text>
-          </View>
-          <Ionicons name="chevron-forward" size={18} color={colors.textInverse} />
-        </TouchableOpacity>
 
         {/* Settings */}
         {[
@@ -68,28 +83,29 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   avatar: {
-    width: 56,
-    height: 56,
+    width: 60,
+    height: 60,
     borderRadius: radius.full,
-    backgroundColor: 'rgba(255,255,255,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 2,
   },
-  avatarText: { fontSize: typography.fontSize['2xl'], fontWeight: typography.fontWeight.bold, color: colors.textInverse },
   name: { fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, color: colors.textInverse },
-  grade: { fontSize: typography.fontSize.sm, color: 'rgba(255,255,255,0.7)' },
-  scroll: { padding: spacing.base, paddingBottom: spacing['3xl'] },
-  proBanner: {
+  termText: { fontSize: typography.fontSize.xs, color: 'rgba(255,255,255,0.75)', marginTop: 3 },
+  examText: { fontSize: typography.fontSize.xs, color: '#FFD700', marginTop: 2, fontWeight: typography.fontWeight.semibold },
+  proHeaderBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.primary,
-    borderRadius: radius.lg,
-    padding: spacing.base,
-    marginBottom: spacing.lg,
-    ...shadows.md,
+    gap: 4,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderWidth: 1,
+    borderColor: '#FFD700',
+    borderRadius: radius.full,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
   },
-  proTitle: { fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.bold, color: colors.textInverse },
-  proSub: { fontSize: typography.fontSize.sm, color: 'rgba(255,255,255,0.7)', marginTop: 2 },
+  proHeaderText: { fontSize: typography.fontSize.xs, fontWeight: typography.fontWeight.bold, color: '#FFD700' },
+  scroll: { padding: spacing.base, paddingBottom: spacing['3xl'] },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',

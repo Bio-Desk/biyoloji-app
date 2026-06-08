@@ -13,7 +13,8 @@ export default function RootLayout() {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar style="light" backgroundColor={colors.primary} />
-      <Stack screenOptions={{ headerShown: false }}>
+      <Stack initialRouteName="welcome" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="welcome" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen
           name="learn/[topicId]"
