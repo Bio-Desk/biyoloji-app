@@ -19,24 +19,8 @@ export default function RootLayout() {
       <Stack initialRouteName="welcome" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="welcome" />
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen
-          name="learn/[topicId]"
-          options={{
-            headerShown: true,
-            headerStyle: { backgroundColor: colors.primary },
-            headerTintColor: colors.textInverse,
-            headerTitle: '',
-          }}
-        />
-        <Stack.Screen
-          name="learn/lesson/[subtopicId]"
-          options={{
-            headerShown: true,
-            headerStyle: { backgroundColor: colors.surface },
-            headerTintColor: colors.textPrimary,
-            headerTitle: '',
-          }}
-        />
+        <Stack.Screen name="learn/[topicId]" />
+        <Stack.Screen name="learn/lesson/[subtopicId]" />
       </Stack>
     </View>
   );

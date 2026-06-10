@@ -12,6 +12,7 @@ import {
   layers_9_1_4_viruses,
   flashcards_9_1_4_viruses,
 } from '../../../data/grade9/topic-1.4-content';
+import { grade9Curriculum } from '../../../data/grade9/curriculum';
 import { colors, typography, spacing, radius, shadows, layerColors, layerTitles } from '../../../lib/theme';
 import type { LessonLayer, Flashcard, LayerType } from '../../../types';
 
@@ -27,6 +28,19 @@ const subtopicTitles: Record<string, string> = {
   '9-1.4-properties': 'Canlıların Temel Özellikleri',
   '9-1.4-viruses': 'Virüsler',
 };
+
+// Locates a subtopic's theme/topic in the curriculum for the breadcrumb
+function getBreadcrumb(subtopicId: string): string {
+  for (const theme of grade9Curriculum) {
+    for (const topic of theme.topics) {
+      if (topic.subtopics.some((s) => s.id === subtopicId)) {
+        const topicNumber = topic.id.split('-')[1];
+        return `9. Sınıf · Tema ${theme.orderIndex} · Konu ${topicNumber}`;
+      }
+    }
+  }
+  return '9. Sınıf';
+}
 
 // Infographic registry — Metro needs static require() paths, so layers
 // reference these by key via contentJson.svgData
@@ -194,6 +208,11 @@ export default function LessonScreen() {
   if (!content) {
     return (
       <SafeAreaView style={styles.container}>
+        <View style={styles.topBar}>
+          <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+            <Ionicons name="arrow-back" size={22} color={colors.textPrimary} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.emptyState}>
           <Text style={styles.emptyText}>İçerik henüz eklenmedi.</Text>
         </View>
@@ -215,7 +234,7 @@ export default function LessonScreen() {
           <Ionicons name="arrow-back" size={22} color={colors.textPrimary} />
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
-          <Text style={styles.topBarLabel}>9. Sınıf · Tema 1 · Konu 1.4</Text>
+          <Text style={styles.topBarLabel}>{getBreadcrumb(subtopicId)}</Text>
           <Text style={styles.topBarTitle} numberOfLines={1}>{title}</Text>
         </View>
       </View>

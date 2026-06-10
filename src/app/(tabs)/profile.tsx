@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, radius, shadows } from '../../lib/theme';
+import { notify } from '../../lib/notify';
 
 // Dönem ve sınav tarihleri
 const SCHOOL_OPEN = new Date('2025-09-09');
@@ -52,7 +53,11 @@ export default function ProfileScreen() {
           { icon: 'notifications-outline', label: 'Bildirim Ayarları', sub: 'Tekrar hatırlatıcıları' },
           { icon: 'shield-checkmark-outline', label: 'Gizlilik ve Hesap', sub: '' },
         ].map((item, i) => (
-          <TouchableOpacity key={i} style={styles.menuItem}>
+          <TouchableOpacity
+            key={i}
+            style={styles.menuItem}
+            onPress={() => notify('Bu özellik yakında eklenecek.')}
+          >
             <View style={styles.menuIcon}>
               <Ionicons name={item.icon as any} size={20} color={colors.primary} />
             </View>

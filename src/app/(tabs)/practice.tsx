@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, typography, spacing, radius, shadows } from '../../lib/theme';
+import { notify } from '../../lib/notify';
 
 export default function PracticeScreen() {
   const dueItems = 8;
@@ -18,7 +19,10 @@ export default function PracticeScreen() {
         {/* Revision Queue */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Bugünkü Tekrar Kuyruğu</Text>
-          <TouchableOpacity style={styles.primaryCard}>
+          <TouchableOpacity
+            style={styles.primaryCard}
+            onPress={() => notify('Tekrar kuyruğu yakında eklenecek.')}
+          >
             <View style={styles.cardRow}>
               <View style={[styles.iconBox, { backgroundColor: colors.accentLight }]}>
                 <Ionicons name="reload" size={24} color={colors.accent} />
@@ -42,7 +46,11 @@ export default function PracticeScreen() {
             { icon: 'school', label: 'Konu Bazlı Quiz', sub: 'Bir konu seç, sorularını çöz', color: colors.info },
             { icon: 'document-text', label: 'TYT Simülasyonu', sub: '13 soru · 40 dakika', color: colors.primary },
           ].map((item, i) => (
-            <TouchableOpacity key={i} style={styles.modeCard}>
+            <TouchableOpacity
+              key={i}
+              style={styles.modeCard}
+              onPress={() => notify('Bu özellik yakında eklenecek.')}
+            >
               <View style={[styles.iconBox, { backgroundColor: item.color + '20' }]}>
                 <Ionicons name={item.icon as any} size={22} color={item.color} />
               </View>
