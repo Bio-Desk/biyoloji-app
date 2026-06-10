@@ -35,7 +35,7 @@ export const layers_9_1_4_properties: LessonLayer[] = [
     orderIndex: 2,
     contentJson: {
       body: 'Aşağıdaki şema, 11 temel canlı özelliğini işlevsel gruplara ayırarak göstermektedir.',
-      svgData: 'INFOGRAPHIC_PLACEHOLDER_9-1.4',
+      svgData: 'tyt-canlilarin-ortak-ozellikleri',
       highlightBoxes: [
         {
           type: 'example',

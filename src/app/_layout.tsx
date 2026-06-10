@@ -3,9 +3,12 @@ import { View } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { initDatabase } from '../db/client';
+import { useScreenCapturePrevention } from '../hooks/useScreenCapturePrevention';
 import { colors } from '../lib/theme';
 
 export default function RootLayout() {
+  useScreenCapturePrevention();
+
   useEffect(() => {
     initDatabase().catch(console.error);
   }, []);

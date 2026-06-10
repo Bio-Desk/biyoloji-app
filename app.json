@@ -37,8 +37,7 @@
         }
       ],
       "expo-asset",
-      "expo-font",
-      "expo-screen-capture"
+      "expo-font"
     ],
     "scheme": "biomap",
     "experiments": {

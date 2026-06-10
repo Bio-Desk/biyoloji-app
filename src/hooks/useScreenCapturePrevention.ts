@@ -11,11 +11,12 @@
  */
 
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import * as ScreenCapture from 'expo-screen-capture';
 
 export function useScreenCapturePrevention(enabled: boolean = true) {
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled || Platform.OS === 'web') return;
 
     // Korumayı etkinleştir
     ScreenCapture.preventScreenCaptureAsync();

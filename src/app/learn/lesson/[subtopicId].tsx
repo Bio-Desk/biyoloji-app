@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, Dimensions,
+  StyleSheet, Dimensions, Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, router } from 'expo-router';
@@ -26,6 +26,12 @@ const contentRegistry: Record<string, { layers: LessonLayer[]; flashcards: Flash
 const subtopicTitles: Record<string, string> = {
   '9-1.4-properties': 'Canlıların Temel Özellikleri',
   '9-1.4-viruses': 'Virüsler',
+};
+
+// Infographic registry — Metro needs static require() paths, so layers
+// reference these by key via contentJson.svgData
+const infographicRegistry: Record<string, ReturnType<typeof require>> = {
+  'tyt-canlilarin-ortak-ozellikleri': require('../../../../assets/infographics/tyt/01_CANLILARIN ORTAK ÖZELLİĞİ/01.canlıların ortak özellikleri.png'),
 };
 
 // ── Highlight Box ─────────────────────────────────────────────
@@ -91,6 +97,15 @@ function LayerCard({ layer }: { layer: LessonLayer }) {
       {/* Body text */}
       {!!layer.contentJson.body && (
         <Text style={styles.layerBody}>{layer.contentJson.body}</Text>
+      )}
+
+      {/* Infographic (visual layer) */}
+      {layer.contentJson.svgData && infographicRegistry[layer.contentJson.svgData] && (
+        <Image
+          source={infographicRegistry[layer.contentJson.svgData]}
+          style={styles.infographicImage}
+          resizeMode="contain"
+        />
       )}
 
       {/* Steps (process layer) */}
@@ -274,6 +289,14 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.base,
     color: colors.textPrimary,
     lineHeight: typography.fontSize.base * typography.lineHeight.relaxed,
+  },
+
+  infographicImage: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: radius.md,
+    marginTop: spacing.md,
+    backgroundColor: colors.surface,
   },
 
   stepRow: {
