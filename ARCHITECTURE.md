@@ -56,10 +56,11 @@ Current mapping status:
 - `9BIO-1.1-K2` is connected and validation passed.
 - `9BIO-1.1-K3` is implemented and approved.
 - `9BIO-1.1-K4` is implemented and approved.
+- `9BIO-1.1-K5` is implemented, validated, and approved.
 
 Next target:
 
-- `9BIO-1.1-K5`
+- `9BIO-1.1-K6`
 
 Workflow rule:
 

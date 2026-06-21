@@ -59,6 +59,7 @@ Phase 2: Flashcards, spaced repetition, quizzes (quiz runner now 90% complete).
 - `9BIO-1.1-K2` is connected and validation passed.
 - `9BIO-1.1-K3` is implemented and approved.
 - `9BIO-1.1-K4` is implemented and approved.
+- `9BIO-1.1-K5` is implemented, validated, and approved.
 
 ### 9BIO-1.1-K3 Approval Summary
 - Changed files:
@@ -140,7 +141,38 @@ Phase 2: Flashcards, spaced repetition, quizzes (quiz runner now 90% complete).
 - Question validation: valid.
 - No unresolved question reference.
 
+### 9BIO-1.1-K5 Approval Summary
+- Changed files:
+  - `src/data/grade9/outcomes/9bio-1.1-k5-content.ts`
+  - `src/data/questions/grade9-seed.ts`
+  - `src/data/contentRegistry.ts`
+- Added 9 lesson layers.
+- Added 6 flashcards.
+- Added 3 quiz questions:
+  - `q9-1.1-k5-001`
+  - `q9-1.1-k5-002`
+  - `q9-1.1-k5-003`
+- Added exactly 4 ContentRef mappings:
+  - lesson
+  - infographic
+  - flashcard
+  - quiz
+- Infographic placeholder:
+  - `placeholder-9bio-1.1-k5-infographic`
+
+### 9BIO-1.1-K5 Validation Result
+- `npx tsc --noEmit` passes.
+- Coverage:
+  - lesson: `available`, count 9
+  - infographic: `placeholder`, count 1
+  - flashcard: `available`, count 6
+  - quiz: `available`, count 3
+  - complete: `false`
+- Registry: valid, with only the expected `PLACEHOLDER_INFOGRAPHIC` warning.
+- Question validation: valid.
+- No unresolved K5 question reference.
+
 ### Next Target
-- Immediate next outcome: `9BIO-1.1-K5`
+- Immediate next outcome: `9BIO-1.1-K6`
 - Do not map outcomes in bulk.
 

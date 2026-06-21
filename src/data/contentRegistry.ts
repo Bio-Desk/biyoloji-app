@@ -15,11 +15,16 @@ import {
   flashcards_9bio_1_1_k4,
   layers_9bio_1_1_k4,
 } from './grade9/outcomes/9bio-1.1-k4-content';
+import {
+  flashcards_9bio_1_1_k5,
+  layers_9bio_1_1_k5,
+} from './grade9/outcomes/9bio-1.1-k5-content';
 
 const PILOT_OUTCOME_ID = '9BIO-1.1-K1';
 const K2_OUTCOME_ID = '9BIO-1.1-K2';
 const K3_OUTCOME_ID = '9BIO-1.1-K3';
 const K4_OUTCOME_ID = '9BIO-1.1-K4';
+const K5_OUTCOME_ID = '9BIO-1.1-K5';
 
 export interface LessonContentItem {
   id: string;
@@ -183,6 +188,36 @@ export const contentRegistry: ContentRegistry = {
         orderIndex: 4,
       },
     ],
+    [K5_OUTCOME_ID]: [
+      {
+        id: 'content-ref-9bio-1.1-k5-lesson',
+        outcomeId: K5_OUTCOME_ID,
+        type: 'lesson',
+        contentId: 'lesson-9bio-1.1-k5',
+        orderIndex: 1,
+      },
+      {
+        id: 'content-ref-9bio-1.1-k5-infographic',
+        outcomeId: K5_OUTCOME_ID,
+        type: 'infographic',
+        contentId: 'infographic-9bio-1.1-k5',
+        orderIndex: 2,
+      },
+      {
+        id: 'content-ref-9bio-1.1-k5-flashcard',
+        outcomeId: K5_OUTCOME_ID,
+        type: 'flashcard',
+        contentId: 'flashcard-9bio-1.1-k5',
+        orderIndex: 3,
+      },
+      {
+        id: 'content-ref-9bio-1.1-k5-quiz',
+        outcomeId: K5_OUTCOME_ID,
+        type: 'quiz',
+        contentId: 'quiz-9bio-1.1-k5',
+        orderIndex: 4,
+      },
+    ],
   },
   lessons: {
     'lesson-9bio-1.1-k1': {
@@ -204,6 +239,11 @@ export const contentRegistry: ContentRegistry = {
       id: 'lesson-9bio-1.1-k4',
       outcomeId: K4_OUTCOME_ID,
       layers: layers_9bio_1_1_k4,
+    },
+    'lesson-9bio-1.1-k5': {
+      id: 'lesson-9bio-1.1-k5',
+      outcomeId: K5_OUTCOME_ID,
+      layers: layers_9bio_1_1_k5,
     },
   },
   infographics: {
@@ -235,6 +275,13 @@ export const contentRegistry: ContentRegistry = {
       assetKey: 'placeholder-9bio-1.1-k4-infographic',
       description: 'Bu kazanım için öğretmen infografiği henüz eklenmedi.',
     },
+    'infographic-9bio-1.1-k5': {
+      id: 'infographic-9bio-1.1-k5',
+      outcomeId: K5_OUTCOME_ID,
+      title: 'Biyolojik Bilgiyle Günlük Problem Çözme',
+      assetKey: 'placeholder-9bio-1.1-k5-infographic',
+      description: 'Bu kazanım için öğretmen infografiği henüz eklenmedi.',
+    },
   },
   flashcards: {
     'flashcard-9bio-1.1-k1': {
@@ -257,6 +304,11 @@ export const contentRegistry: ContentRegistry = {
       outcomeId: K4_OUTCOME_ID,
       flashcards: flashcards_9bio_1_1_k4,
     },
+    'flashcard-9bio-1.1-k5': {
+      id: 'flashcard-9bio-1.1-k5',
+      outcomeId: K5_OUTCOME_ID,
+      flashcards: flashcards_9bio_1_1_k5,
+    },
   },
   quizzes: {
     'quiz-9bio-1.1-k1': {
@@ -278,6 +330,11 @@ export const contentRegistry: ContentRegistry = {
       id: 'quiz-9bio-1.1-k4',
       outcomeId: K4_OUTCOME_ID,
       questionIds: ['q9-1.1-k4-001', 'q9-1.1-k4-002', 'q9-1.1-k4-003'],
+    },
+    'quiz-9bio-1.1-k5': {
+      id: 'quiz-9bio-1.1-k5',
+      outcomeId: K5_OUTCOME_ID,
+      questionIds: ['q9-1.1-k5-001', 'q9-1.1-k5-002', 'q9-1.1-k5-003'],
     },
   },
 };
