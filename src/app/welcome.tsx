@@ -3,8 +3,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { colors, typography, spacing, radius, shadows } from '../lib/theme';
+import { useKvkkStore } from '../store/kvkkStore';
 
 export default function WelcomeScreen() {
+  const kvkkAccepted = useKvkkStore((s) => s.accepted);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -32,7 +35,9 @@ export default function WelcomeScreen() {
           </View>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.replace('/(tabs)')}
+            onPress={() => {
+              router.replace(kvkkAccepted ? '/(auth)/login' : '/(auth)/kvkk');
+            }}
             activeOpacity={0.85}
           >
             <Text style={styles.buttonText}>Başlayalım</Text>
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
   content: { flex: 1, justifyContent: 'center', padding: spacing.base },
   heroCard: {
     backgroundColor: colors.surface,
-    borderRadius: radius['2xl'],
+    borderRadius: radius.xl,
     padding: spacing['2xl'],
     alignItems: 'center',
     ...shadows.lg,
@@ -100,3 +105,4 @@ const styles = StyleSheet.create({
     fontWeight: typography.fontWeight.bold,
   },
 });
+

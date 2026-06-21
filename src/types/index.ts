@@ -1,6 +1,59 @@
 // ─── Curriculum ───────────────────────────────────────────────
 export type GradeLevel = 9 | 10 | 11 | 12;
 
+// ─── Universal Learning Model ─────────────────────────────────
+export type SubjectId = 'biology' | 'physics' | 'chemistry' | 'mathematics';
+
+export type ExamTypeId = 'TYT' | 'AYT' | 'school' | 'general';
+
+export type ContentType = 'lesson' | 'infographic' | 'flashcard' | 'quiz';
+
+export interface Subject {
+  id: SubjectId;
+  title: string;
+  orderIndex: number;
+  examTypes: ExamType[];
+}
+
+export interface ExamType {
+  id: ExamTypeId;
+  subjectId: SubjectId;
+  title: string;
+  orderIndex: number;
+  grades: Grade[];
+}
+
+export interface Grade {
+  id: string;
+  subjectId: SubjectId;
+  examTypeId: ExamTypeId;
+  level: GradeLevel;
+  title: string;
+  orderIndex: number;
+  units: Unit[];
+}
+
+export interface Unit {
+  id: string;
+  subjectId: SubjectId;
+  examTypeId: ExamTypeId;
+  gradeLevel: GradeLevel;
+  title: string;
+  orderIndex: number;
+  learningOutcomes: LearningOutcome[];
+}
+
+export interface ContentRef {
+  id: string;
+  outcomeId: string;
+  type: ContentType;
+  contentId: string;
+  orderIndex: number;
+}
+
+// Backward-compatible alias for older question/outcome fields that used ExamType as a string code.
+export type LegacyExamType = ExamTypeId;
+
 export interface Theme {
   id: string;           // "9-1", "9-2"
   gradeLevel: GradeLevel;
@@ -54,7 +107,7 @@ export interface LayerContent {
   body: string;
   highlightBoxes?: HighlightBox[];
   steps?: string[];          // for process layer
-  svgData?: string;          // for visual layer
+  svgData?: string | string[]; // for visual layer — registry key(s) of infographic image(s)
   tytPattern?: string;       // for exam_tips
   aytPattern?: string;
 }
@@ -86,7 +139,6 @@ export type QuestionType =
   | 'daily_life'
   | 'interpretation';   // yorum sorusu
 
-export type ExamType = 'TYT' | 'AYT' | 'school' | 'general';
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
 export interface Question {
@@ -95,7 +147,7 @@ export interface Question {
   topicId: string;
   gradeLevel: GradeLevel;
   type: QuestionType;
-  examType: ExamType;
+  examType: ExamTypeId;
   difficulty: Difficulty;
   outcomeCode: string;    // "9BIO-1.4-K1"
   bodyJson: QuestionBody;
@@ -116,15 +168,29 @@ export interface QuestionBody {
 
 // ─── Learning Outcome (Kazanım) ───────────────────────────────
 export interface LearningOutcome {
+  // Universal model fields are optional while legacy curriculum files are migrated.
+  id?: string;
+  unitId?: string;
+  title?: string;
+  orderIndex?: number;
+  contentRefs?: ContentRef[];
+
+  // Legacy curriculum fields kept for backward compatibility.
   code: string;           // "9BIO-1.4-K1"
   text: string;
-  examRelevance: ExamType[];
+  examRelevance: ExamTypeId[];
 }
 
 // ─── User & Progress ──────────────────────────────────────────
+export type UserRole = 'student' | 'teacher';
+
+export type TeacherVerificationStatus = 'unverified' | 'pending' | 'verified' | 'rejected';
+
 export interface UserProfile {
   id: string;
   email: string;
+  fullName: string;
+  role: UserRole;
   gradeLevel: GradeLevel;
   goal: 'tyt' | 'ayt' | 'school' | 'curiosity';
   totalXp: number;
@@ -132,6 +198,8 @@ export interface UserProfile {
   streakDays: number;
   lastActiveDate: string;
   isPro: boolean;
+  kvkkAcceptedAt: string;
+  teacherVerificationStatus?: TeacherVerificationStatus;
 }
 
 export interface SubtopicProgress {
@@ -141,6 +209,38 @@ export interface SubtopicProgress {
   masteryScore: number;    // 0–100
   completedAt?: string;
   timeSpentSeconds: number;
+}
+
+export type LearningOutcomeStage =
+  | 'not_started'
+  | 'lesson'
+  | 'infographic'
+  | 'flashcard'
+  | 'quiz'
+  | 'result'
+  | 'revision'
+  | 'mastered';
+
+export type LearningOutcomeStatus =
+  | 'not_started'
+  | 'in_progress'
+  | 'needs_revision'
+  | 'mastered';
+
+export interface LearningOutcomeProgress {
+  userId: string;
+  outcomeId: string;
+  currentStage: LearningOutcomeStage;
+  completedStages: LearningOutcomeStage[];
+  lessonViewed: boolean;
+  infographicViewed: boolean;
+  flashcardsReviewed: boolean;
+  quizAttempted: boolean;
+  quizScore?: number;
+  masteryScore: number;
+  status: LearningOutcomeStatus;
+  lastActivityAt: string;
+  nextReviewDate?: string;
 }
 
 // ─── Spaced Repetition ────────────────────────────────────────

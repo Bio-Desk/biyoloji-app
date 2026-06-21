@@ -22,13 +22,13 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
       progress: {
         ...state.progress,
         [subtopicId]: {
-          ...state.progress[subtopicId],
-          userId: 'local',
-          subtopicId,
-          status: 'in_progress',
-          masteryScore: 0,
-          timeSpentSeconds: 0,
-          ...state.progress[subtopicId],
+          ...(state.progress[subtopicId] ?? {
+            userId: 'local',
+            subtopicId,
+            status: 'in_progress' as const,
+            masteryScore: 0,
+            timeSpentSeconds: 0,
+          }),
           ...update,
         },
       },
@@ -89,3 +89,5 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
       };
     }),
 }));
+
+

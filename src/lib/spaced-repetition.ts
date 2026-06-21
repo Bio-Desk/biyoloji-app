@@ -85,6 +85,20 @@ export function getDueItems(records: MemoryRecord[]): MemoryRecord[] {
     });
 }
 
+// Tarihe göre tekrar sayıları — takvim görünümü için.
+// Geçmiş (overdue) kayıtlar bugüne sayılır.
+export function getReviewCountsByDate(records: MemoryRecord[]): Record<string, number> {
+  const today = format(new Date(), 'yyyy-MM-dd');
+  const counts: Record<string, number> = {};
+
+  for (const r of records) {
+    const date = isBefore(parseISO(r.nextReviewDate), parseISO(today)) ? today : r.nextReviewDate;
+    counts[date] = (counts[date] || 0) + 1;
+  }
+
+  return counts;
+}
+
 // Priority queue: overdue → due today → new
 export function buildRevisionQueue(
   records: MemoryRecord[],

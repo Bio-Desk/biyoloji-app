@@ -1,11 +1,16 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { colors, typography, spacing, radius, shadows } from '../../lib/theme';
 import { notify } from '../../lib/notify';
 
 export default function PracticeScreen() {
   const dueItems = 8;
+
+  const handleStartQuiz = () => {
+    router.push({ pathname: '/config' } as any);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,7 +54,7 @@ export default function PracticeScreen() {
             <TouchableOpacity
               key={i}
               style={styles.modeCard}
-              onPress={() => notify('Bu özellik yakında eklenecek.')}
+              onPress={handleStartQuiz}
             >
               <View style={[styles.iconBox, { backgroundColor: item.color + '20' }]}>
                 <Ionicons name={item.icon as any} size={22} color={item.color} />
@@ -67,7 +72,7 @@ export default function PracticeScreen() {
         <View style={styles.comingSoon}>
           <Ionicons name="construct-outline" size={20} color={colors.textMuted} />
           <Text style={styles.comingSoonText}>
-            Soru bankası Aşama 3'te eklenecek. Tekrar kuyruğu ve quiz motoru hazır bekliyor.
+            Quiz motoru şimdi aktif! Yukarıdaki modlardan birini seç ve hemen başla. Soru bankası güncellenmeye devam ediyor.
           </Text>
         </View>
 

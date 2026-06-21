@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { grade9Curriculum } from '../../data/grade9/curriculum';
+import { getExamTypes, getGrades, getSubject, getUnits } from '../../data/learningModel';
 import { colors, typography, spacing, radius, shadows } from '../../lib/theme';
-import type { Topic } from '../../types';
+import type { Difficulty, ExamType, ExamTypeId, Grade, Unit } from '../../types';
+
+const SUBJECT_ID = 'biology';
+const DEFAULT_EXAM_TYPE_ID: ExamTypeId = 'TYT';
 
 const difficultyLabel = { easy: 'Kolay', medium: 'Orta', hard: 'Zor' };
 const difficultyColor = {
@@ -13,25 +17,33 @@ const difficultyColor = {
   hard: colors.error,
 };
 
-function TopicCard({ topic }: { topic: Topic }) {
+function getExamTypeLabel(examType: ExamType) {
+  const gradeLevels = examType.grades.map((grade) => grade.level).join('-');
+  return `${examType.title} (${gradeLevels}. Sınıf)`;
+}
+
+function UnitCard({ unit }: { unit: Unit }) {
+  const estimatedMinutes = 20;
+  const difficulty: Difficulty = 'medium';
+
   return (
     <TouchableOpacity
       style={styles.topicCard}
-      onPress={() => router.push(`/learn/${topic.id}`)}
+      onPress={() => router.push({ pathname: '/learn/[topicId]', params: { topicId: unit.id } })}
       activeOpacity={0.85}
     >
       <View style={styles.topicLeft}>
         <View style={styles.topicNumber}>
-          <Text style={styles.topicNumberText}>{topic.orderIndex}</Text>
+          <Text style={styles.topicNumberText}>{unit.orderIndex}</Text>
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.topicTitle}>{topic.title}</Text>
+          <Text style={styles.topicTitle}>{unit.title}</Text>
           <View style={styles.topicMeta}>
             <Ionicons name="time-outline" size={12} color={colors.textMuted} />
-            <Text style={styles.topicMetaText}>{topic.estimatedMinutes} dk</Text>
-            <View style={[styles.difficultyDot, { backgroundColor: difficultyColor[topic.difficulty] }]} />
-            <Text style={[styles.difficultyText, { color: difficultyColor[topic.difficulty] }]}>
-              {difficultyLabel[topic.difficulty]}
+            <Text style={styles.topicMetaText}>{estimatedMinutes} dk</Text>
+            <View style={[styles.difficultyDot, { backgroundColor: difficultyColor[difficulty] }]} />
+            <Text style={[styles.difficultyText, { color: difficultyColor[difficulty] }]}>
+              {difficultyLabel[difficulty]}
             </Text>
           </View>
         </View>
@@ -42,36 +54,75 @@ function TopicCard({ topic }: { topic: Topic }) {
 }
 
 export default function LearnScreen() {
+  const subject = getSubject(SUBJECT_ID);
+  const examTypes = getExamTypes(SUBJECT_ID);
+  const [activeSection, setActiveSection] = useState<ExamTypeId>(DEFAULT_EXAM_TYPE_ID);
+  const section = examTypes.find((examType) => examType.id === activeSection) ?? examTypes[0];
+  const grades = section ? getGrades(SUBJECT_ID, section.id) : [];
+  const unitCount = grades.reduce((sum, grade) => sum + getUnits(SUBJECT_ID, section.id, grade.level).length, 0);
+
   return (
     <SafeAreaView style={styles.container}>
 
       {/* Grade Header */}
       <View style={styles.gradeHeader}>
-        <Text style={styles.gradeTitle}>9. Sınıf Biyoloji</Text>
-        <Text style={styles.gradeSub}>MEB Müfredatı · 2 Tema · 15 Konu</Text>
+        <Text style={styles.gradeTitle}>9. Sınıf {subject?.title ?? 'Biyoloji'}</Text>
+        <Text style={styles.gradeSub}>MEB Müfredatı · {grades.length} Sınıf · {unitCount} Konu</Text>
+      </View>
+
+      {/* TYT / AYT Switcher */}
+      <View style={styles.switcher}>
+        {examTypes.map((examType) => (
+          <TouchableOpacity
+            key={examType.id}
+            style={[styles.switcherTab, activeSection === examType.id && styles.switcherTabActive]}
+            onPress={() => setActiveSection(examType.id)}
+            activeOpacity={0.85}
+          >
+            <Text style={[styles.switcherTabText, activeSection === examType.id && styles.switcherTabTextActive]}>
+              {getExamTypeLabel(examType)}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {grade9Curriculum.map((theme) => (
-          <View key={theme.id} style={styles.themeSection}>
-
-            {/* Theme Header */}
-            <View style={styles.themeHeader}>
-              <Ionicons name={theme.icon as any} size={20} color={colors.primary} />
-              <Text style={styles.themeTitle}>
-                Tema {theme.orderIndex}: {theme.title}
-              </Text>
-            </View>
-
-            {/* Topics */}
-            <View style={styles.topicsContainer}>
-              {theme.topics.map((topic) => (
-                <TopicCard key={topic.id} topic={topic} />
-              ))}
-            </View>
-
+        {!section || grades.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Ionicons name="construct-outline" size={32} color={colors.textMuted} />
+            <Text style={styles.emptyText}>
+              {section?.title ?? 'Bu bölüm'} konuları yakında eklenecek.
+            </Text>
           </View>
-        ))}
+        ) : (
+          grades.map((grade: Grade) => {
+            const units = getUnits(SUBJECT_ID, section.id, grade.level);
+            if (units.length === 0) return null;
+
+            return (
+              <View key={grade.id}>
+                <View style={styles.gradeBadgeRow}>
+                  <Text style={styles.gradeBadgeText}>{grade.title}</Text>
+                </View>
+
+                <View style={styles.themeSection}>
+                  <View style={styles.themeHeader}>
+                    <Ionicons name="book-outline" size={20} color={colors.primary} />
+                    <Text style={styles.themeTitle}>
+                      {grade.title} Üniteleri
+                    </Text>
+                  </View>
+
+                  <View style={styles.topicsContainer}>
+                    {units.map((unit) => (
+                      <UnitCard key={unit.id} unit={unit} />
+                    ))}
+                  </View>
+                </View>
+              </View>
+            );
+          })
+        )}
         <View style={{ height: spacing['3xl'] }} />
       </ScrollView>
     </SafeAreaView>
@@ -95,6 +146,62 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.sm,
     color: 'rgba(255,255,255,0.7)',
     marginTop: 4,
+  },
+
+  switcher: {
+    flexDirection: 'row',
+    backgroundColor: colors.surfaceSecondary,
+    margin: spacing.base,
+    marginBottom: spacing.sm,
+    borderRadius: radius.md,
+    padding: 4,
+    gap: 4,
+  },
+  switcherTab: {
+    flex: 1,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.sm,
+    alignItems: 'center',
+  },
+  switcherTabActive: {
+    backgroundColor: colors.primary,
+  },
+  switcherTabText: {
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.textMuted,
+  },
+  switcherTabTextActive: {
+    color: colors.textInverse,
+  },
+
+  emptyState: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing['3xl'],
+    gap: spacing.sm,
+  },
+  emptyText: {
+    fontSize: typography.fontSize.base,
+    color: colors.textMuted,
+    textAlign: 'center',
+    paddingHorizontal: spacing.xl,
+  },
+
+  gradeBadgeRow: {
+    paddingHorizontal: spacing.base,
+    marginTop: spacing.md,
+  },
+  gradeBadgeText: {
+    fontSize: typography.fontSize.xs,
+    fontWeight: typography.fontWeight.bold,
+    color: colors.textInverse,
+    backgroundColor: colors.primary,
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: radius.sm,
+    overflow: 'hidden',
   },
 
   themeSection: {

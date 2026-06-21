@@ -1,55 +1,101 @@
+import { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, router } from 'expo-router';
-import { grade9Curriculum } from '../../data/grade9/curriculum';
+import { getLearningOutcomesByUnit, getUnit } from '../../data/learningModel';
 import { colors, typography, spacing, radius, shadows } from '../../lib/theme';
-import type { Subtopic } from '../../types';
+import type { LearningOutcome } from '../../types';
 
-// Subtopics with real lesson content wired up so far
-const availableSubtopicIds = new Set(['9-1.4-properties', '9-1.4-viruses']);
+function LearningOutcomeCard({ outcome }: { outcome: LearningOutcome }) {
+  const [expanded, setExpanded] = useState(false);
+  const outcomeRouteId = outcome.id ?? outcome.code;
+  const openOutcomeDetail = () => {
+    router.push({
+      pathname: '/learn/outcome/[outcomeId]',
+      params: { outcomeId: outcomeRouteId },
+    } as any);
+  };
 
-function SubtopicCard({ subtopic }: { subtopic: Subtopic }) {
-  const available = availableSubtopicIds.has(subtopic.id);
   return (
-    <TouchableOpacity
-      style={styles.subtopicCard}
-      onPress={() => router.push(`/learn/lesson/${subtopic.id}`)}
-      activeOpacity={0.85}
-    >
-      <View style={styles.subtopicNumber}>
-        <Text style={styles.subtopicNumberText}>{subtopic.orderIndex}</Text>
-      </View>
-      <Text style={styles.subtopicTitle}>{subtopic.title}</Text>
-      {available ? (
-        <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
-      ) : (
-        <View style={styles.comingSoonBadge}>
-          <Text style={styles.comingSoonText}>Yakında</Text>
+    <View style={styles.subtopicCard}>
+      <TouchableOpacity
+        style={styles.subtopicHeader}
+        onPress={() => setExpanded((e) => !e)}
+        activeOpacity={0.85}
+      >
+        <View style={styles.subtopicNumber}>
+          <Text style={styles.subtopicNumberText}>{outcome.orderIndex ?? 1}</Text>
+        </View>
+        <Text style={styles.subtopicTitle}>{outcome.title ?? outcome.code}</Text>
+        <Ionicons
+          name={expanded ? 'chevron-up' : 'chevron-down'}
+          size={18}
+          color={colors.textMuted}
+        />
+      </TouchableOpacity>
+
+      {expanded && (
+        <View style={styles.subtopicBody}>
+          {/* Action buttons */}
+          <View style={styles.actionRow}>
+            <TouchableOpacity
+              style={styles.actionBtn}
+              onPress={openOutcomeDetail}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="book-outline" size={16} color={colors.primary} />
+              <Text style={styles.actionBtnText}>Oku</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.actionBtn}
+              onPress={openOutcomeDetail}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="create-outline" size={16} color={colors.primary} />
+              <Text style={styles.actionBtnText}>Alıştırma yap</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.actionBtn}
+              onPress={openOutcomeDetail}
+              activeOpacity={0.85}
+            >
+              <Ionicons name="reload-outline" size={16} color={colors.primary} />
+              <Text style={styles.actionBtnText}>Tekrar et</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Kazanımlar */}
+          <View style={styles.outcomesSection}>
+            <Text style={styles.outcomesTitle}>Kazanım</Text>
+            <View style={styles.outcomeRow}>
+              <Text style={styles.outcomeCode}>{outcome.code}</Text>
+              <Text style={styles.outcomeText}>{outcome.text}</Text>
+              <View style={styles.examTagsRow}>
+                {outcome.examRelevance.map((tag) => (
+                  <View key={tag} style={styles.examTag}>
+                    <Text style={styles.examTagText}>{tag}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </View>
         </View>
       )}
-    </TouchableOpacity>
+    </View>
   );
 }
 
 export default function TopicScreen() {
   const { topicId } = useLocalSearchParams<{ topicId: string }>();
+  const unit = getUnit(topicId);
+  const learningOutcomes = getLearningOutcomesByUnit(topicId);
 
-  let theme, topic;
-  for (const t of grade9Curriculum) {
-    const found = t.topics.find((tp) => tp.id === topicId);
-    if (found) {
-      theme = t;
-      topic = found;
-      break;
-    }
-  }
-
-  if (!topic || !theme) {
+  if (!unit) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.topBar}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+          <TouchableOpacity onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/learn'))} style={styles.backBtn}>
             <Ionicons name="arrow-back" size={22} color={colors.textPrimary} />
           </TouchableOpacity>
         </View>
@@ -63,16 +109,16 @@ export default function TopicScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.gradeHeader}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtnHeader}>
+        <TouchableOpacity onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/learn'))} style={styles.backBtnHeader}>
           <Ionicons name="arrow-back" size={22} color={colors.textInverse} />
         </TouchableOpacity>
-        <Text style={styles.gradeSub}>9. Sınıf · Tema {theme.orderIndex}: {theme.title}</Text>
-        <Text style={styles.gradeTitle}>{topic.title}</Text>
+        <Text style={styles.gradeSub}>{unit.gradeLevel}. Sınıf · {unit.examTypeId}</Text>
+        <Text style={styles.gradeTitle}>{unit.title}</Text>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
-        {topic.subtopics.map((subtopic) => (
-          <SubtopicCard key={subtopic.id} subtopic={subtopic} />
+        {learningOutcomes.map((outcome) => (
+          <LearningOutcomeCard key={outcome.id ?? outcome.code} outcome={outcome} />
         ))}
         <View style={{ height: spacing['3xl'] }} />
       </ScrollView>
@@ -117,14 +163,16 @@ const styles = StyleSheet.create({
   },
 
   subtopicCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: colors.surface,
     borderRadius: radius.md,
-    padding: spacing.base,
-    gap: spacing.md,
     marginBottom: spacing.xs,
     ...shadows.sm,
+  },
+  subtopicHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: spacing.base,
+    gap: spacing.md,
   },
   subtopicNumber: {
     width: 32,
@@ -152,6 +200,75 @@ const styles = StyleSheet.create({
     borderRadius: radius.sm,
   },
   comingSoonText: {
+    fontSize: typography.fontSize.xs,
+    fontWeight: typography.fontWeight.medium,
+    color: colors.textMuted,
+  },
+
+  subtopicBody: {
+    paddingHorizontal: spacing.base,
+    paddingBottom: spacing.base,
+  },
+
+  actionRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  actionBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.primaryMuted,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.full,
+  },
+  actionBtnDisabled: {
+    backgroundColor: colors.surfaceSecondary,
+  },
+  actionBtnText: {
+    fontSize: typography.fontSize.xs,
+    fontWeight: typography.fontWeight.semibold,
+  },
+
+  outcomesSection: {
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    paddingTop: spacing.sm,
+  },
+  outcomesTitle: {
+    fontSize: typography.fontSize.sm,
+    fontWeight: typography.fontWeight.bold,
+    color: colors.textPrimary,
+    marginBottom: spacing.sm,
+  },
+  outcomeRow: {
+    marginBottom: spacing.sm,
+  },
+  outcomeCode: {
+    fontSize: typography.fontSize.xs,
+    fontWeight: typography.fontWeight.semibold,
+    color: colors.primary,
+    marginBottom: 2,
+  },
+  outcomeText: {
+    fontSize: typography.fontSize.sm,
+    color: colors.textSecondary,
+    lineHeight: typography.fontSize.sm * typography.lineHeight.relaxed,
+  },
+  examTagsRow: {
+    flexDirection: 'row',
+    gap: spacing.xs,
+    marginTop: spacing.xs,
+  },
+  examTag: {
+    backgroundColor: colors.surfaceSecondary,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: radius.sm,
+  },
+  examTagText: {
     fontSize: typography.fontSize.xs,
     fontWeight: typography.fontWeight.medium,
     color: colors.textMuted,
