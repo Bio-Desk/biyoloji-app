@@ -34,8 +34,8 @@ export const layers_9_1_4_properties: LessonLayer[] = [
     layerType: 'visual',
     orderIndex: 2,
     contentJson: {
-      body: 'Aşağıdaki şema, 11 temel canlı özelliğini işlevsel gruplara ayırarak göstermektedir.',
       svgData: 'tyt-canlilarin-ortak-ozellikleri',
+      body: 'Aşağıdaki şema, 11 temel canlı özelliğini işlevsel gruplara ayırarak göstermektedir.',
       highlightBoxes: [
         {
           type: 'example',
@@ -276,10 +276,54 @@ export const layers_9_1_4_viruses: LessonLayer[] = [
     },
   },
   {
+    id: '9-1.4-vir-L3',
+    subtopicId: '9-1.4-viruses',
+    layerType: 'visual',
+    orderIndex: 3,
+    contentJson: {
+      svgData: 'tyt-virusler',
+      body: 'Bir virüsün temel yapısı oldukça basittir: ortada genetik materyal (DNA veya RNA), bunu çevreleyen protein kılıf (kapsit) ve bazı virüslerde kapsidin dışında bulunan zarf (envelope) yapısı. Bakteriyofajlar gibi bazı virüslerde ayrıca kuyruk lifleri ve iğne yapısı da bulunur ve bu yapılar konak hücreye tutunmayı sağlar.',
+      highlightBoxes: [
+        {
+          type: 'example',
+          text: 'Çıplak (zarfsız) virüs: Yalnızca nükleik asit + kapsit (örn. Adenovirüs).\nZarflı virüs: Nükleik asit + kapsit + lipit-protein zarf (örn. HIV, influenza, koronavirüs). Zarf, konak hücre zarından koparılarak elde edilir.',
+        },
+        {
+          type: 'tip',
+          text: 'Bakteriyofaj (faj): Bakterileri enfekte eden virüslerin genel adıdır. Baş (kapsit + DNA), boyun, kuyruk kılıfı ve kuyruk lifleri içeren karmaşık bir yapıya sahiptir — uzayda iniş yapan bir araca benzetilir.',
+        },
+        {
+          type: 'important',
+          text: 'Boyut karşılaştırması: Virüsler bakterilerden çok daha küçüktür (genellikle 20-300 nm). Bu yüzden ışık mikroskobuyla değil, yalnızca elektron mikroskobuyla görülebilirler.',
+        },
+      ],
+    },
+  },
+  {
+    id: '9-1.4-vir-L4',
+    subtopicId: '9-1.4-viruses',
+    layerType: 'terms',
+    orderIndex: 4,
+    contentJson: {
+      body: 'Virüsler konusunun anahtar terimleri:',
+      highlightBoxes: [
+        { type: 'tip', text: 'Kapsit: Virüsün genetik materyalini saran protein kılıf.' },
+        { type: 'tip', text: 'Zarf (Envelope): Bazı virüslerde kapsidin dışında bulunan, konak hücre zarından köken alan lipit-protein tabaka.' },
+        { type: 'tip', text: 'Konak (Host) Hücre: Virüsün içine girip çoğaldığı canlı hücre.' },
+        { type: 'tip', text: 'Bakteriyofaj (Faj): Bakterileri enfekte eden virüs türü.' },
+        { type: 'tip', text: 'Litik Döngü: Virüsün konak hücreyi parçalayarak (lizis) hızla çoğalması.' },
+        { type: 'tip', text: 'Lizojenik Döngü: Viral DNA\'nın konak DNA\'sına entegre olup sessiz (kalıtsal) kalması.' },
+        { type: 'tip', text: 'Retrovirüs: Genetik materyali RNA olan ve ters transkriptaz enzimiyle DNA\'ya dönüşen virüs (örn. HIV).' },
+        { type: 'tip', text: 'Antiviral İlaç: Virüsün konak hücreye girişini, çoğalmasını veya çıkışını engelleyen ilaç türü (antibiyotik DEĞİLDİR).' },
+        { type: 'tip', text: 'Aşı: Bağışıklık sistemini belirli bir virüse karşı önceden hazırlayan biyolojik ürün.' },
+      ],
+    },
+  },
+  {
     id: '9-1.4-vir-L5',
     subtopicId: '9-1.4-viruses',
     layerType: 'misconceptions',
-    orderIndex: 3,
+    orderIndex: 5,
     contentJson: {
       body: '',
       highlightBoxes: [
@@ -295,6 +339,10 @@ export const layers_9_1_4_viruses: LessonLayer[] = [
           type: 'warning',
           text: '❌ "Virüsler hücrelerdir."\n✅ Virüslerin hücresel yapısı YOKTUR. Organelleri yoktur, çift katlı zarları yoktur, sitoplazmaları yoktur.',
         },
+        {
+          type: 'warning',
+          text: '❌ "Virüsler kendi başlarına ATP üretip enerji elde edebilir."\n✅ Virüslerin metabolizmaları YOKTUR. Ribozomları, enzim sistemleri ve ATP üretim mekanizmaları yoktur; tamamen konak hücrenin makinelerine bağımlıdırlar.',
+        },
       ],
     },
   },
@@ -302,20 +350,59 @@ export const layers_9_1_4_viruses: LessonLayer[] = [
     id: '9-1.4-vir-L6',
     subtopicId: '9-1.4-viruses',
     layerType: 'exam_tips',
-    orderIndex: 4,
+    orderIndex: 6,
     contentJson: {
       body: '',
       tytPattern: '"Virüslerle ilgili verilen bilgilerden hangileri doğrudur?" tarzı öncüllü sorular çok sık çıkar. Sık sorulan öncüller:\n• Hücresel yapıları yoktur. (DOĞRU)\n• Yalnızca konak hücrede çoğalırlar. (DOĞRU)\n• DNA ve RNA\'yı aynı anda taşırlar. (YANLIŞ — biri taşır)\n• Antibiyotiklerle tedavi edilirler. (YANLIŞ)\n• Cansız ortamda kristal yapı oluşturabilirler. (DOĞRU)',
       aytPattern: 'AYT\'de viral replikasyon mekanizması, faj döngüsü ve bağışıklık sistemi ile ilişkilendirilerek sorulabilir.',
-      highlightBoxes: [],
+      highlightBoxes: [
+        {
+          type: 'important',
+          text: 'Sınavda "canlıların ortak özellikleri" listesi verilip "virüs kaç tanesini taşır?" tarzı sorular çıkabilir. Cevap: Virüsler yalnızca üreme (konak içinde) ve kalıtım materyaline sahip olma özelliğini gösterir; hücresel yapı, beslenme, solunum, boşaltım, büyüme gibi özellikleri YOKTUR.',
+        },
+      ],
+    },
+  },
+  {
+    id: '9-1.4-vir-L7',
+    subtopicId: '9-1.4-viruses',
+    layerType: 'real_life',
+    orderIndex: 7,
+    contentJson: {
+      body: 'Virüsler günlük hayatımızı doğrudan etkileyen varlıklardır:',
+      highlightBoxes: [
+        {
+          type: 'example',
+          text: '🦠 Grip ve nezle: İnfluenza virüsü ve rinovirüsler her yıl mevsimsel salgınlara yol açar; antibiyotik bu hastalıkları tedavi etmez, dinlenme ve bağışıklık sistemi devreye girer.',
+        },
+        {
+          type: 'example',
+          text: '💉 Aşılar: Çocukluk aşı takvimindeki kızamık, suçiçeği, hepatit gibi aşılar, zayıflatılmış veya inaktif virüsler kullanılarak vücudun bağışıklık hafızası oluşturmasını sağlar.',
+        },
+        {
+          type: 'example',
+          text: '🧫 Faj tedavisi: Antibiyotiğe dirençli bakteri enfeksiyonlarında, o bakteriye özgü bakteriyofajlar tedavi amaçlı kullanılabilir.',
+        },
+        {
+          type: 'example',
+          text: '🧬 Gen tedavisi ve aşı geliştirme: Bilim insanları, zararsız hale getirilmiş virüsleri "taşıyıcı (vektör)" olarak kullanarak hücrelere terapötik genler veya mRNA aşıları ulaştırır (örn. COVID-19 mRNA aşıları).',
+        },
+      ],
     },
   },
   {
     id: '9-1.4-vir-L8',
     subtopicId: '9-1.4-viruses',
     layerType: 'mini_quiz',
-    orderIndex: 5,
+    orderIndex: 8,
     contentJson: { body: 'MINI_QUIZ_PLACEHOLDER', highlightBoxes: [] },
+  },
+  {
+    id: '9-1.4-vir-L9',
+    subtopicId: '9-1.4-viruses',
+    layerType: 'assessment',
+    orderIndex: 9,
+    contentJson: { body: 'ASSESSMENT_PLACEHOLDER', highlightBoxes: [] },
   },
 ];
 
