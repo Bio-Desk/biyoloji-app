@@ -55,9 +55,10 @@ Completed mapping work:
 - `9BIO-1.1-K1` connected.
 - `9BIO-1.1-K2` connected and validation passed.
 - `9BIO-1.1-K3` implemented, validated, and approved.
+- `9BIO-1.1-K4` implemented, validated, and approved.
 
 Immediate next step:
-- Map `9BIO-1.1-K4` only.
+- Map `9BIO-1.1-K5` only.
 
 Current rule:
-- Do not activate `K5` or later outcomes as active tasks until `9BIO-1.1-K4` is authored, mapped, validated, and approved.
+- Do not activate `K6` or later outcomes as active tasks until `9BIO-1.1-K5` is authored, mapped, validated, and approved.

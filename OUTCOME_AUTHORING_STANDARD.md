@@ -2,7 +2,7 @@
 
 Reference implementation: `9BIO-1.1-K2`
 
-Latest approved mapped outcome: `9BIO-1.1-K3`
+Latest approved mapped outcome: `9BIO-1.1-K4`
 
 ## Required Files Per Outcome
 
@@ -130,10 +130,11 @@ For one mapped outcome:
 - `9BIO-1.1-K1` is connected.
 - `9BIO-1.1-K2` is connected and validation passed.
 - `9BIO-1.1-K3` is implemented and approved.
+- `9BIO-1.1-K4` is implemented and approved.
 
 Next target:
 
-- `9BIO-1.1-K4`
+- `9BIO-1.1-K5`
 
 Workflow:
 

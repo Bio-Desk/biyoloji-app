@@ -11,10 +11,15 @@ import {
   flashcards_9bio_1_1_k3,
   layers_9bio_1_1_k3,
 } from './grade9/outcomes/9bio-1.1-k3-content';
+import {
+  flashcards_9bio_1_1_k4,
+  layers_9bio_1_1_k4,
+} from './grade9/outcomes/9bio-1.1-k4-content';
 
 const PILOT_OUTCOME_ID = '9BIO-1.1-K1';
 const K2_OUTCOME_ID = '9BIO-1.1-K2';
 const K3_OUTCOME_ID = '9BIO-1.1-K3';
+const K4_OUTCOME_ID = '9BIO-1.1-K4';
 
 export interface LessonContentItem {
   id: string;
@@ -148,6 +153,36 @@ export const contentRegistry: ContentRegistry = {
         orderIndex: 4,
       },
     ],
+    [K4_OUTCOME_ID]: [
+      {
+        id: 'content-ref-9bio-1.1-k4-lesson',
+        outcomeId: K4_OUTCOME_ID,
+        type: 'lesson',
+        contentId: 'lesson-9bio-1.1-k4',
+        orderIndex: 1,
+      },
+      {
+        id: 'content-ref-9bio-1.1-k4-infographic',
+        outcomeId: K4_OUTCOME_ID,
+        type: 'infographic',
+        contentId: 'infographic-9bio-1.1-k4',
+        orderIndex: 2,
+      },
+      {
+        id: 'content-ref-9bio-1.1-k4-flashcard',
+        outcomeId: K4_OUTCOME_ID,
+        type: 'flashcard',
+        contentId: 'flashcard-9bio-1.1-k4',
+        orderIndex: 3,
+      },
+      {
+        id: 'content-ref-9bio-1.1-k4-quiz',
+        outcomeId: K4_OUTCOME_ID,
+        type: 'quiz',
+        contentId: 'quiz-9bio-1.1-k4',
+        orderIndex: 4,
+      },
+    ],
   },
   lessons: {
     'lesson-9bio-1.1-k1': {
@@ -164,6 +199,11 @@ export const contentRegistry: ContentRegistry = {
       id: 'lesson-9bio-1.1-k3',
       outcomeId: K3_OUTCOME_ID,
       layers: layers_9bio_1_1_k3,
+    },
+    'lesson-9bio-1.1-k4': {
+      id: 'lesson-9bio-1.1-k4',
+      outcomeId: K4_OUTCOME_ID,
+      layers: layers_9bio_1_1_k4,
     },
   },
   infographics: {
@@ -188,6 +228,13 @@ export const contentRegistry: ContentRegistry = {
       assetKey: 'placeholder-9bio-1.1-k3-infographic',
       description: 'Bu kazanım için öğretmen infografiği henüz eklenmedi.',
     },
+    'infographic-9bio-1.1-k4': {
+      id: 'infographic-9bio-1.1-k4',
+      outcomeId: K4_OUTCOME_ID,
+      title: 'Biyolojide Dönüm Noktaları ve İnsan Hayatına Etkileri',
+      assetKey: 'placeholder-9bio-1.1-k4-infographic',
+      description: 'Bu kazanım için öğretmen infografiği henüz eklenmedi.',
+    },
   },
   flashcards: {
     'flashcard-9bio-1.1-k1': {
@@ -205,6 +252,11 @@ export const contentRegistry: ContentRegistry = {
       outcomeId: K3_OUTCOME_ID,
       flashcards: flashcards_9bio_1_1_k3,
     },
+    'flashcard-9bio-1.1-k4': {
+      id: 'flashcard-9bio-1.1-k4',
+      outcomeId: K4_OUTCOME_ID,
+      flashcards: flashcards_9bio_1_1_k4,
+    },
   },
   quizzes: {
     'quiz-9bio-1.1-k1': {
@@ -221,6 +273,11 @@ export const contentRegistry: ContentRegistry = {
       id: 'quiz-9bio-1.1-k3',
       outcomeId: K3_OUTCOME_ID,
       questionIds: ['q9-1.1-k3-001', 'q9-1.1-k3-002', 'q9-1.1-k3-003'],
+    },
+    'quiz-9bio-1.1-k4': {
+      id: 'quiz-9bio-1.1-k4',
+      outcomeId: K4_OUTCOME_ID,
+      questionIds: ['q9-1.1-k4-001', 'q9-1.1-k4-002', 'q9-1.1-k4-003'],
     },
   },
 };
