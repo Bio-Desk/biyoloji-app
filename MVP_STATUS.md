@@ -296,3 +296,65 @@
 - Quiz currently limited to single-choice questions (schema supports more types)
 - No timed quiz UI (infrastructure ready in schema)
 - No server sync yet (questions/results stored locally only)
+
+---
+
+## Grade 9 Mapping Checkpoint: 2026-06-25
+
+### Completed Units
+- Unit `9-1.1`: complete for mapped sprint scope.
+- Unit `9-1.2`: complete.
+- Unit `9-1.3`: complete.
+- Total mapped outcomes: 18.
+
+### Unit 9-1.3 Final Audit
+- Status: APPROVED.
+- Required revisions: None.
+- Implementation status: COMPLETE.
+- Lesson, flashcard, quiz, and placeholder infographic coverage is complete for `9BIO-1.3-K1` through `9BIO-1.3-K5`.
+
+### Validation Status
+- Typecheck passes with `npm.cmd run typecheck`.
+- Registry mappings are complete for mapped Grade 9 outcomes.
+- Question mappings are complete for mapped Grade 9 outcomes.
+- Placeholder infographic warnings are expected until real infographic assets are created.
+
+### Current Technical Debt
+- Placeholder infographics remain across mapped outcomes.
+- `src/data/contentRegistry.ts` is growing.
+- `src/data/questions/grade9-seed.ts` is growing.
+- Selected Q3 questions can be upgraded to medium-hard in future revisions.
+
+### Historical Next Recommended Task
+- At this checkpoint, the next recommended implementation task was to start Unit `9-1.4` / `9BIO-1.4-K1` after the documentation checkpoint.
+
+## Current State Checkpoint: 2026-07-09
+
+### Grade 9 Mapping Status
+- Grade 9 mapped outcomes: 31.
+- Units `9-1.1` through `9-1.4` are mapped.
+- Outcome package pattern in active use: 9 lesson layers, 6 flashcards, 3 quiz questions, infographic placeholder/plan, registry wiring.
+
+### COS Architecture Status
+- `COS-RFC-0001` Revision 2: Accepted.
+- Architecture Freeze #1: Frozen.
+- `COS-RFC-0003` Revision 2: Accepted.
+- `COS-RFC-0002` Revision 2: Accepted.
+- Persistent Codex instruction system: Established under `cos/codex/`.
+
+### Not Started
+- Capability Matrix.
+- Trust Levels.
+- Workflow implementation.
+- Runtime Agent Engine.
+- Runtime COS implementation.
+
+### Current Technical Debt
+- Placeholder infographics remain across mapped outcomes.
+- `src/data/contentRegistry.ts` continues to grow.
+- `src/data/questions/grade9-seed.ts` continues to grow.
+- Selected `*-003` questions remain candidates for future medium-hard upgrades.
+
+### Current Direction
+- No new implementation task is started in this checkpoint.
+- Repository state is aligned for documentation reconciliation review before any further checkpointing.

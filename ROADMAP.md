@@ -63,3 +63,90 @@ Immediate next step:
 
 Current rule:
 - Do not activate `K7` or later outcomes as active tasks until `9BIO-1.1-K6` is authored, mapped, validated, and approved.
+
+## Current Roadmap Checkpoint: 2026-06-25
+
+### Grade 9 Biology Mapping Progress
+- Unit `9-1.1` completion status: complete for mapped sprint scope.
+- Unit `9-1.2` completion status: complete.
+- Unit `9-1.3` completion status: complete.
+- Total mapped outcomes: 18.
+
+### Unit 9-1.3 Final Audit
+- Status: APPROVED.
+- Required revisions: None.
+- Implementation status: COMPLETE.
+- Coverage: all five outcomes have lesson, placeholder infographic, flashcards, and quiz.
+- Validation: typecheck passes, registry mappings complete, question mappings complete.
+- Placeholder infographic warnings are expected.
+
+### Technical Debt To Track
+- Placeholder infographics need real assets in a later visual-production phase.
+- `contentRegistry.ts` is growing; split later when maintenance cost becomes meaningful.
+- `grade9-seed.ts` is growing; split later when question bank work requires it.
+- Future medium-hard upgrades are recommended for selected `*-003` questions.
+
+### Historical Next Roadmap Step
+- At this checkpoint, the next roadmap step was to begin Unit `9-1.4` with `9BIO-1.4-K1` after the documentation checkpoint.
+- At this checkpoint, Unit `9-1.4` remained blocked until the checkpoint update was validated.
+
+## COS Architecture Checkpoint: 2026-07-06
+
+- `COS-RFC-0001` Revision 2 accepted.
+- Second Post-Revision Acceptance Review passed; blocking issues: none.
+- Architecture Freeze #1 Review Gate passed; blocking issues: none.
+- Architecture Freeze #1 is Frozen; nonblocking notes remain preserved.
+- `COS-RFC-0003` Artifact Specification Revision 2: Accepted. Acceptance Review passed; blocking issues: none; complexity: Slightly Over-Engineered; nonblocking notes preserved; Agent Contract dependency readiness: Yes With Nonblocking Notes.
+- `COS-RFC-0002` Agent Contract Specification Revision 1 independent review completed with verdict NEEDS REVISION and 3 blocking issues; Revision 2 prepared; status Proposed; post-revision architecture review pending.
+- Capability Matrix: not started.
+- Runtime Agent Engine: not started.
+- Runtime Artifact Engine: not started.
+- Runtime COS implementation: not started.
+- Next task: Post-Revision Agent Contract Specification Review Gate.
+
+## COS Agent Contract Acceptance Checkpoint: 2026-07-08
+
+- `COS-RFC-0002` Agent Contract Specification Revision 2: Accepted.
+- Review state: Agent Contract Specification Acceptance Review Passed.
+- Acceptance verdict: ACCEPT WITH NONBLOCKING NOTES; blocking issues: none; all 40 acceptance criteria passed.
+- Five nonblocking notes, open questions, known debt, and the `SLIGHTLY OVER-ENGINEERED` complexity note remain active.
+- Frozen authority rules and `COS-RFC-0003` Artifact semantics were not changed.
+- Capability Matrix: not started.
+- Trust Levels: not finalized or implemented.
+- Workflow implementation: not started.
+- Runtime Agent Engine: not started.
+- Next task: Establish persistent Codex task instruction system.
+
+### Persistent Codex Task Instruction Checkpoint
+- Persistent repository instructions are established under `cos/codex/`.
+- Accepted RFC and Frozen architecture state remains unchanged.
+- Capability Matrix: not started.
+- Runtime Agent Engine: not started.
+- Runtime COS implementation: not started.
+- Next task: Audit and checkpoint repository working tree before starting Capability Matrix preparation.
+
+## Current Roadmap Checkpoint: 2026-07-09
+
+### Current Grade 9 State
+- Total mapped outcomes: 31.
+- Units `9-1.1` through `9-1.4` are mapped.
+- Registry-backed outcome mapping is complete for the current Grade 9 sprint scope.
+
+### Current COS State
+- `COS-RFC-0001` Revision 2: Accepted.
+- Architecture Freeze #1: Frozen.
+- `COS-RFC-0003` Revision 2: Accepted.
+- `COS-RFC-0002` Revision 2: Accepted.
+- Persistent Codex task instruction system: established.
+
+### Not Started
+- Capability Matrix.
+- Trust Levels.
+- Workflow implementation.
+- Runtime Agent Engine.
+- Runtime COS implementation.
+
+### Current Roadmap Constraints
+- Preserve Accepted/Frozen COS semantics.
+- Do not start Capability Matrix in this checkpoint.
+- Do not activate a new implementation task from this roadmap reconciliation.
