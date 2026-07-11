@@ -150,3 +150,60 @@ Current rule:
 - Preserve Accepted/Frozen COS semantics.
 - Do not start Capability Matrix in this checkpoint.
 - Do not activate a new implementation task from this roadmap reconciliation.
+
+## COS Capability Matrix Checkpoint: 2026-07-10
+
+- `COS-RFC-0004` Capability Matrix Draft 1: Proposed.
+- Review state: Pending Independent Architecture Review.
+- Current Accepted/Frozen COS state remains unchanged.
+- Trust Levels: not started.
+- Workflow implementation: not started.
+- Runtime Agent Engine: not started.
+- Runtime COS implementation: not started.
+- Next task: Independent Capability Matrix Architecture Review.
+
+### Capability Matrix Revision 2 Checkpoint
+- Independent Architecture Review found one blocker.
+- `COS-RFC-0004` Revision 2: Proposed.
+- Blocker addressed.
+- Review state: Pending Post-Revision Architecture Review.
+- Capability Matrix: not accepted yet.
+- Trust Levels: not started.
+- Workflow implementation: not started.
+- Runtime Agent Engine: not started.
+- Runtime COS implementation: not started.
+- Next task: Post-Revision Capability Matrix Architecture Review.
+
+### Capability Matrix Revision 3 Checkpoint
+- `COS-RFC-0004` Revision 3: Proposed.
+- Remaining CONDITIONAL traceability blockers addressed.
+- Review state: Pending Post-Revision Architecture Review.
+- Capability Matrix: not accepted yet.
+- Trust Levels: not started.
+- Workflow implementation: not started.
+- Runtime Agent Engine: not started.
+- Runtime COS implementation: not started.
+- Next task: Second Post-Revision Capability Matrix Architecture Review.
+
+### Capability Matrix Revision 4 Checkpoint
+- `COS-RFC-0004` Revision 4: Proposed.
+- Remaining candidate-version authority-source blocker addressed.
+- Generic `write_non_authoritative_record` blocker addressed.
+- Active `CONDITIONAL` count is zero.
+- Review state: Pending Post-Revision Architecture Review.
+- Capability Matrix: not accepted yet.
+- Trust Levels: not started.
+- Workflow implementation: not started.
+- Runtime Agent Engine: not started.
+- Runtime COS implementation: not started.
+- Next task: Third Post-Revision Capability Matrix Architecture Review.
+
+### Capability Matrix Revision 5 Checkpoint
+- `COS-RFC-0004` Capability Matrix Revision 5: Accepted.
+- Acceptance Gate passed with nonblocking notes.
+- Capability Matrix accepted architecture.
+- Trust Levels: not started.
+- Workflow implementation: not started.
+- Runtime Agent Engine: not started.
+- Runtime COS implementation: not started.
+- Next task: Checkpoint COS-RFC-0004 Accepted transition.
