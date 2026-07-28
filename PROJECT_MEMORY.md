@@ -339,3 +339,26 @@ Phase 2: Flashcards, spaced repetition, quizzes (quiz runner now 90% complete).
 - Runtime COS implementation has not started.
 - Next action: Checkpoint COS-RFC-0004 Accepted transition.
 
+### Workflow / State Machine Draft 1 Checkpoint
+- `COS-RFC-0005` Workflow / State Machine Draft 1 created.
+- Status: Proposed.
+- Revision: 1.
+- Independent Review Pending.
+- `COS-RFC-0004` remains Accepted.
+- Trust Levels have not started.
+- Workflow implementation has not started.
+- Runtime Agent Engine has not started.
+- Runtime COS implementation has not started.
+
+### Workflow / State Machine Revision 2 Checkpoint
+- `COS-RFC-0005` Revision 2 Accepted.
+- Review State: Workflow / State Machine Acceptance Review Gate Passed.
+- All 22 mandatory scenarios passed.
+- All 31 acceptance criteria passed.
+- Workflow / State Machine Implementation Planning is next.
+- `COS-RFC-0004` remains Accepted.
+- Trust Levels have not started.
+- Workflow implementation has not started.
+- Runtime Agent Engine has not started.
+- Runtime COS implementation has not started.
+
