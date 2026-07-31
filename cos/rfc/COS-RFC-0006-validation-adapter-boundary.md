@@ -5,18 +5,20 @@
 | Field | Value |
 |---|---|
 | Document ID | COS-RFC-0006 |
-| Status | Draft |
+| Status | Draft - Revision 1 Acceptance Candidate |
 | Type | Boundary / Adapter Contract Planning |
 | Implementation | Not Started |
-| Authority | Non-authoritative draft until explicitly accepted |
+| Authority | Non-authoritative until explicitly accepted |
 | Artifact Baseline | COS-RFC-0003 Revision 2 - Accepted |
 | Capability Baseline | COS-RFC-0004 Revision 5 - Accepted |
 | Workflow Baseline | COS-RFC-0005 Revision 2 - Accepted |
 | Prepared | 2026-07-30 |
+| Revised | 2026-07-31 |
 
-This draft does not revise or override any Accepted RFC or Frozen architecture
-invariant. It does not authorize validation adapter implementation or any runtime
-workflow behavior.
+This acceptance candidate does not revise or override any Accepted RFC or Frozen
+architecture invariant. It remains non-authoritative until explicitly accepted.
+It does not authorize validation adapter implementation or any runtime workflow
+behavior.
 
 ## 1. Purpose
 
@@ -31,8 +33,10 @@ mapping without an explicit input, applicability, provenance, freshness, and
 identity contract could overstate a local `isValid` value as an authoritative
 workflow result.
 
-This draft therefore records the minimum descriptive boundary and the questions
-that must remain unresolved until a separate review and acceptance process.
+Revision 1 records the minimum descriptive source-code boundary decisions needed
+for a future type-only projection contract. These decisions remain
+non-authoritative until this revision passes a separate review and explicit
+acceptance process.
 
 ## 2. Current Validator Reality
 
@@ -78,61 +82,176 @@ Validation state, governance state, publication authorization, and learner
 visibility remain separate dimensions. Publication authorization does not
 activate learner visibility.
 
-## 4. Descriptive Projection Boundary
+## 4. Adapter Role Decision
 
-If a validation adapter is separately approved in the future, its initial scope
-must be a descriptive projection only.
+Future validation projection code is descriptive only.
 
-A descriptive projection:
+It may represent a projection of an already-produced validation result, subject
+to the explicit contract inputs defined by a separately approved source-code
+slice. A descriptive projection is not a controlling workflow gate by itself.
+It must not:
 
-- may read an already-produced validation result
-- may represent a gate-local `PASS` or `FAIL` only after explicit applicability
-  and provenance rules have been accepted
-- must preserve the source result without reinterpreting a failure
-- must not execute registry validation or question validation
-- must not mutate workflow state
-- must not complete or request a legal workflow transition
-- must not approve an artifact
-- must not authorize or perform publication
-- must not activate learner visibility
-- must not infer, create, generate, or resolve Artifact Version identity
+- execute registry validation, question validation, or any other validator
+- mutate workflow state
+- complete or request a legal workflow transition
+- approve an artifact
+- authorize or perform publication
+- activate learner visibility
+- create authoritative validation, approval, publication, or visibility records
 
-Until the missing rules are accepted, a current validator report may be
-described only as a local report from the checks it actually performs. This
-draft does not itself authorize projecting `isValid` into a workflow gate
-outcome.
+The source validation result remains distinct from its descriptive projection.
 
-## 5. Open Questions Before Implementation
+## 5. Input Contract Decision
 
-The following questions must be resolved before an adapter implementation is
-authorized:
+After this boundary is explicitly accepted, the first source-code slice may
+define workflow-owned validation projection input and result contract types
+only.
 
-1. What exact input object is the adapter allowed to read?
-2. How is Artifact Version identity bound, or how is its unavailability
-   explicitly declared without inventing an identity?
-3. Who determines whether `registry_validation` or `question_validation` is
-   applicable to a specific workflow context?
-4. How are freshness and staleness represented and evaluated?
-5. What is the stable reference for the validation result?
-6. What provenance is required to identify the validator, rule set, input, and
-   production context?
-7. Is `post_validation_passed` an aggregate state, a gate bundle, or a later
-   human-authorized transition?
-8. What happens when registry validation passes but question validation fails?
-9. What happens when a previously produced validation result is stale?
-10. What happens when exact Artifact Version identity is unresolved?
+That first slice:
 
-No default answer, implicit authority, or runtime behavior is created for these
-questions by this draft.
+- must not import `registryValidation.ts`
+- must not import `questionValidation.ts`
+- must not couple directly to `RegistryValidationReport` or
+  `QuestionValidationReport`
+- must not execute or wrap concrete validators
 
-## 6. Required Future Implementation Constraints
+Direct coupling to concrete validator report shapes is deferred. Any
+validator-specific adapter requires a later, separate approval.
 
-Any future validation adapter implementation must:
+## 6. Applicability Decision
 
-- receive separate explicit approval before source code is created
-- begin as read-only and side-effect-free
-- read only an already-produced result
-- avoid executing registry or question validators
+Gate applicability must be explicit input to a future projection contract.
+
+- The projection must not infer applicability from a validator result alone.
+- Unknown or unresolved applicability must remain visible in the projection
+  contract.
+- Unknown or unresolved applicability must not produce or be interpreted as an
+  authoritative `PASS`.
+- Applicability does not grant transition, approval, publication, or visibility
+  authority.
+
+This revision does not create an applicability decision service or assign new
+applicability authority.
+
+## 7. Freshness Decision
+
+Freshness or staleness must be explicit input to a future projection contract.
+
+- The projection must not infer freshness from `isValid`.
+- Stale or unknown freshness must remain visible.
+- Stale or unknown freshness must not be converted into or interpreted as an
+  authoritative `PASS`.
+- Freshness does not equal human approval or publication authorization.
+- Freshness does not authorize learner visibility or legal transition
+  completion.
+
+This revision does not create a clock, freshness evaluator, cache, or persistence
+system.
+
+## 8. Provenance and Result Reference Decision
+
+A future projection contract must represent whether a validation result
+reference and required provenance are present or unavailable.
+
+- Missing validation result reference must remain visible.
+- Missing provenance must remain visible.
+- Missing provenance or result reference must not be silently treated as
+  `PASS` authority.
+- A descriptive projection must not invent a validation result reference or
+  provenance record.
+
+The exact validator-specific reference and provenance payloads remain deferred
+to a later, separately approved adapter contract. The first type-only slice may
+represent presence or unavailability without importing concrete validators.
+
+## 9. Artifact Version Identity Decision
+
+Artifact Version identity creation remains unresolved future architecture work.
+
+- A future projection contract may reference only
+  `ArtifactVersionIdentityStatus` or an equivalent status contract accepted in
+  the future.
+- It must not introduce `artifactVersionId`.
+- It must not introduce an identity resolver, generator, registry, or service.
+- `identity_required_but_unresolved` must not be treated as
+  `exact_identity_known`.
+- A projection must not infer, create, generate, or resolve Artifact Version
+  identity.
+
+## 10. `isValid` and Gate-Local `PASS` / `FAIL` Decision
+
+`isValid` is not automatically `PASS`.
+
+A future descriptive projection may represent a gate-local `PASS` or `FAIL`
+only under explicit applicability, freshness, provenance, validation-result
+reference, and Artifact Version identity-status constraints.
+
+- `PASS` remains gate-local and non-authoritative.
+- `PASS` does not equal human approval.
+- `PASS` does not equal `publication_authorized`.
+- `PASS` does not equal `learner_visible`.
+- `PASS` does not complete a legal workflow transition.
+- `PASS` does not derive `post_validation_passed`.
+- `FAIL` cannot be overridden or relabelled as `PASS` by an agent.
+
+The first type-only source-code slice must not implement the conversion from
+`isValid` to a gate-local outcome.
+
+## 11. `post_validation_passed` Decision
+
+`post_validation_passed` must not be derived in the first validation projection
+type slice.
+
+- Aggregation of multiple gate results is deferred.
+- Mixed `PASS` / `FAIL` behavior is deferred.
+- A single projected gate result does not establish
+  `post_validation_passed`.
+- Any later aggregation, gate-bundle, or workflow-state derivation requires
+  separate explicit approval.
+
+## 12. First Permitted Source-Code Slice After Acceptance
+
+After this boundary is explicitly accepted, the first permitted source-code
+slice is:
+
+- File: `src/features/cosWorkflow/workflowValidationProjectionTypes.ts`
+- Scope: type-only
+- Allowed contents:
+  - comments
+  - type-only imports
+  - readonly type and interface definitions
+- Forbidden contents:
+  - functions
+  - constants
+  - mappers
+  - adapters
+  - selectors
+  - validator imports
+  - registry or question validation imports
+  - store, persistence, UI, or runtime imports
+
+Allowed type-only imports for that future slice, only if the exported names still
+exist when the slice is prepared:
+
+- From `./workflowTypes`:
+  - `WorkflowDeterministicGateRef`
+  - `ArtifactVersionIdentityStatus`
+- From `./workflowGateTypes`:
+  - `WorkflowDeterministicGateOutcome`
+
+This revision does not create or modify that source file. Acceptance of this
+boundary would permit only a separately approved type-only slice; it would not
+authorize helper, adapter, mapper, selector, runtime, store, persistence, or UI
+implementation.
+
+## 13. Required Future Implementation Constraints
+
+Any future source-code slice must:
+
+- receive separate explicit approval
+- remain read-only and side-effect-free until a later contract explicitly
+  authorizes otherwise
+- avoid validator execution
 - avoid workflow state mutation
 - avoid learner progress and quiz history store imports
 - avoid UI and learner-facing behavior changes
@@ -140,15 +259,15 @@ Any future validation adapter implementation must:
 - avoid `canPublish`, `canTransition`, and
   `canBecomeLearnerVisible` helpers
 - avoid `isReadyForPublication` and `isReadyForLearnerVisibility` helpers
-- avoid automatic gate aggregation or automatic derivation of
+- avoid automatic gate aggregation or derivation of
   `post_validation_passed`
 - avoid Artifact Version identity service, resolver, or generator creation
 
 Typecheck success alone cannot establish applicability, provenance, freshness,
-exact-version binding, or governance authority. A future implementation would
-also require semantic architecture review against the Accepted baselines.
+exact-version binding, or governance authority. Every future slice also requires
+semantic architecture review against the Accepted baselines.
 
-## 7. Explicitly Out of Scope
+## 14. Explicitly Out of Scope
 
 - runtime workflow engine
 - transition executor
@@ -156,6 +275,11 @@ also require semantic architecture review against the Accepted baselines.
 - Trust Levels
 - Runtime Agent Engine
 - Runtime COS
+- validation adapter implementation
+- validator execution
+- registry or question validator coupling
+- validation result aggregation
+- static gate catalogue implementation
 - learner-facing UI
 - learner progress state
 - quiz result history state
@@ -163,22 +287,33 @@ also require semantic architecture review against the Accepted baselines.
 - publication authorization or publication execution
 - learner visibility activation
 - human or agent approval decisions
-- validator execution from workflow code
 - workflow state persistence
 
-## 8. Acceptance Criteria for This Draft
+## 15. Revision 1 Acceptance Criteria
 
-Review of this draft must confirm:
+Review of Revision 1 must confirm:
 
-- The draft does not modify source code.
-- The draft does not alter Accepted RFCs or Frozen architecture.
-- The draft does not authorize adapter or runtime implementation.
-- The draft preserves the separation between deterministic `PASS`, human
-  approval, publication authorization, and learner visibility.
-- The draft does not derive `post_validation_passed`.
-- The draft preserves Artifact Version identity creation authority as
-  unresolved future architecture work.
-- The draft preserves the separation between learner progress state and COS
-  workflow state.
-- The draft leaves applicability, provenance, freshness, validation-result
-  identity, and exact input binding unresolved pending explicit review.
+- Revision 1 is documentation-only.
+- No source-code file is created or modified.
+- No Accepted RFC or Frozen architecture document is modified.
+- The minimum adapter-role, input, applicability, freshness, provenance,
+  validation-result-reference, identity, and gate-local outcome decisions are
+  explicit.
+- The first future source-code slice is type-only.
+- `registryValidation.ts` and `questionValidation.ts` imports remain deferred.
+- Deterministic `PASS`, human approval, publication authorization, and learner
+  visibility remain separate.
+- `post_validation_passed` derivation and gate-result aggregation remain
+  deferred.
+- Artifact Version identity creation authority remains unresolved future
+  architecture work.
+- Learner progress state remains separate from COS workflow state.
+- Revision 1 does not authorize source-code implementation before explicit
+  acceptance and separate implementation approval.
+
+## 16. Revision History
+
+| Revision | Date | Status | Summary |
+|---|---|---|---|
+| Initial Draft | 2026-07-30 | Draft | Recorded the open validation adapter boundary and prohibited source-code implementation. |
+| Revision 1 | 2026-07-31 | Draft - Acceptance Candidate | Added the minimum conservative decisions required to review a future type-only validation projection contract while preserving authority, identity, aggregation, learner-state, and runtime boundaries. |
